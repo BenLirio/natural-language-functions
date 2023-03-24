@@ -11,7 +11,8 @@ def create_chat_completion_from_cache(key):
   cache_file = f'{CACHE_DIRECTORY}/{key}.pkl'
   os.makedirs(os.path.dirname(cache_file), exist_ok=True)
   if os.path.exists(cache_file):
-    return pickle.load(open(cache_file, "rb"))
+    completion = pickle.load(open(cache_file, "rb"))
+    return completion
   return None
 
 def create_chat_completion(messages):
@@ -27,3 +28,7 @@ def create_chat_completion(messages):
   pickle.dump(completion, open(f'{CACHE_DIRECTORY}/{key}.pkl', 'wb'))
   return completion
 
+
+def create_chat_completion_clean(messages):
+  completion = create_chat_completion(messages)
+  return completion.choices[0].message.content
